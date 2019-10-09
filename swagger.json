@@ -1,0 +1,413 @@
+{
+  "swagger": "2.0",
+  "schemes": [
+    "http"
+  ],
+  "host": "localhost:3000",
+  "basePath": "/",
+  "info": {
+    "version": "1.0",
+    "title": "skus_api_document_embedded",
+    "description": "Administa o catalógo e estoque de produtos de um e-commerce",
+    "contact": {
+      "name": "Suporte",
+      "email": "zogbivitor@gmail.com.br"
+    }
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "tags": [
+    {
+      "name": "products"
+    },
+    {
+      "name": "skus"
+    }
+  ],
+  "paths": {
+    "/products": {
+      "post": {
+        "tags": [
+          "products"
+        ],
+        "summary": "Cria um produto",
+        "description": "Cria um novo produto",
+        "operationId": "createProduct",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "product",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/products"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "ok"
+          },
+          "404": {
+            "description": "Produto não criado"
+          },
+          "422": {
+            "description": "Erro com os dados do produto"
+          },
+          "500": {
+            "description": "Falha ao criar o produto"
+          }
+        }
+      }
+    },
+    "/products/": {
+      "get": {
+        "tags": [
+          "products"
+        ],
+        "summary": "Lista os produtos",
+        "description": "Lista os produstos com suas skus",
+        "operationId": "listProducts",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/products"
+            }
+          },
+          "500": {
+            "description": "Falha ao carregar os produtos"
+          }
+        }
+      }
+    },
+    "/products/{page}": {
+      "get": {
+        "tags": [
+          "products"
+        ],
+        "summary": "Lista os produtos com paginação",
+        "description": "Lista os produtos com suas skus em formato paginado",
+        "operationId": "listProductsPaginated",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "page",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Produto(s) encontrado(s)",
+            "schema": {
+              "$ref": "#/definitions/products"
+            }
+          },
+          "206": {
+            "description": "Nenhum produto encontrado"
+          },
+          "500": {
+            "description": "Falha ao carregar os produtos"
+          }
+        }
+      }
+    },
+    "/products/findbyid/{id}": {
+      "get": {
+        "tags": [
+          "products"
+        ],
+        "summary": "Encontra um produto através de sua Id",
+        "description": "Retorna um produto com suas skus",
+        "operationId": "findProductById",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "products",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Produto encontrado",
+            "schema": {
+              "$ref": "#/definitions/products"
+            }
+          },
+          "404": {
+            "description": "Produto não encontrado"
+          },
+          "422": {
+            "description": "Erro com a id do produto"
+          },
+          "500": {
+            "description": "Falha ao encontrar o produto"
+          }
+        }
+      }
+    },
+    "/products/update/{id}": {
+      "put": {
+        "tags": [
+          "products"
+        ],
+        "summary": "Atualiza um produto",
+        "description": "Atualiza os dados base de um produto com base na sua id",
+        "operationId": "updateProduct",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "products",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/products"
+            }
+          },
+          {
+            "in": "query",
+            "name": "products",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Produto atualizado",
+            "schema": {
+              "$ref": "#/definitions/products"
+            }
+          },
+          "422": {
+            "description": "Erro com os dados do produto"
+          },
+          "500": {
+            "description": "Não foi possível alterar o produto"
+          }
+        }
+      }
+    },
+    "/products/delete/{id}": {
+      "delete": {
+        "tags": [
+          "products"
+        ],
+        "summary": "Exclui o produto",
+        "description": "Exclusão de um produto através do Id",
+        "operationId": "deleteProduct",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "products",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Produto apagado com sucesso"
+          },
+          "404": {
+            "description": "Produto não encontrado"
+          },
+          "422": {
+            "description": "Erro com os dados do produto"
+          },
+          "500": {
+            "description": "Não foi possível apagar o produto desejado"
+          }
+        }
+      }
+    },
+    "/skus/": {
+      "post": {
+        "tags": [
+          "skus"
+        ],
+        "summary": "Cria uma sku",
+        "description": "Cria uma sku referente a um produto",
+        "operationId": "createSku",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "sku",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/products"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "ok"
+          },
+          "404": {
+            "description": "SKU não criada"
+          },
+          "422": {
+            "description": "Erro com os dados da sku"
+          },
+          "500": {
+            "description": "Não foi possível criar a sku"
+          }
+        }
+      }
+    },
+    "/skus/{id}": {
+      "put": {
+        "tags": [
+          "skus"
+        ],
+        "summary": "Atualiza uma sku",
+        "description": "Atualiza os dados de uma sku com base na sua id",
+        "operationId": "updateSku",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "productswithsku",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/products"
+            }
+          },
+          {
+            "in": "query",
+            "name": "productwithsku",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Sku atualizada",
+            "schema": {
+              "$ref": "#/definitions/products"
+            }
+          },
+          "422": {
+            "description": "Erro com os dados da sku"
+          },
+          "500": {
+            "description": "Não foi possível alterar a sku"
+          }
+        }
+      }
+    },
+    "/skus/delete/{id}": {
+      "delete": {
+        "tags": [
+          "skus"
+        ],
+        "summary": "Exclui a sku",
+        "description": "Exclusão de uma sku de um produto através do Id da sku",
+        "operationId": "deleteSku",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "productwithsku",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Produto apagado com sucesso"
+          },
+          "404": {
+            "description": "Produto não encontrado"
+          },
+          "422": {
+            "description": "Erro com os dados do produto"
+          },
+          "500": {
+            "description": "Não foi possível apagar o produto desejado"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "products": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "5d9276e9972aa819ecfc8684"
+        },
+        "name": {
+          "type": "string",
+          "format": "utf-8",
+          "example": "Camisa"
+        },
+        "description": {
+          "type": "string",
+          "example": "Item de vestúario"
+        },
+        "active": {
+          "type": "boolean",
+          "default": false
+        },
+        "sku": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "color": {
+                "type": "string",
+                "format": "utf-8",
+                "example": "rose"
+              },
+              "size": {
+                "type": "string",
+                "format": "utf-8",
+                "example": "rose"
+              },
+              "price": {
+                "type": "number",
+                "format": "double",
+                "example": 99.99
+              },
+              "stockLevel": {
+                "type": "number",
+                "format": "integer",
+                "example": 10
+              },
+              "active": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
