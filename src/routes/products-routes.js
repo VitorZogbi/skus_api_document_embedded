@@ -8,9 +8,11 @@ router.post('/', ProductValidation.productValidation(), productsController.creat
 
 router.put('/:id', IdValidation.validateId(), ProductValidation.productValidation(), productsController.updateProduct);
 
-router.get('/', productsController.listProducts);
+// router.get('/', productsController.listProducts);
 
-router.get('/findproductbyid', productsController.findProductById);
+// router.get('/findproductbyid', productsController.findProductById);
+
+router.get('/', productsController.list);
 
 router.get('/:page', productsController.listProductsPaginated);
 

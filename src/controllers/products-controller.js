@@ -14,15 +14,15 @@ exports.createProduct = async (req, res) => {
     }).catch(error => { res.status(500).send({ message: 'Falha ao criar o produto', error });});
 }
 
-exports.listProducts = async (req, res) => {
+// exports.listProducts = async (req, res) => {
     
-    try {
-        const data = await repository.listProduct();
-        res.status(200).send(data);
-    } catch (e) {
-        res.status(500).send({ message: 'Falha ao carregar os produtos', e });
-    }
-}
+//     try {
+//         const data = await repository.listProduct();
+//         res.status(200).send(data);
+//     } catch (e) {
+//         res.status(500).send({ message: 'Falha ao carregar os produtos', e });
+//     }
+// }
 
 exports.listProductsPaginated = async (req, res) => {
     
@@ -37,18 +37,18 @@ exports.listProductsPaginated = async (req, res) => {
     });;
 };
 
-exports.findProductById = async (req, res) => {
+// exports.findProductById = async (req, res) => {
 
-    const {errors} = validationResult(req);
+//     const {errors} = validationResult(req);
 
-    if (errors.length > 0) return res.status(422).send({ message: errors });
+//     if (errors.length > 0) return res.status(422).send({ message: errors });
     
-    await repository.findProductById(req.get("id"), (errors, result) => {
+//     await repository.findProductById(req.get("id"), (errors, result) => {
 
-        if(result) return res.status(200).send(result);
-        return res.status(404).send({ erro: "Produto não encontrado", errors })
-    }).catch(error => { res.status(500).send({ message: 'Falha ao encontrar o produto', error})})
-} 
+//         if(result) return res.status(200).send(result);
+//         return res.status(404).send({ erro: "Produto não encontrado", errors })
+//     }).catch(error => { res.status(500).send({ message: 'Falha ao encontrar o produto', error})})
+// } 
 
 exports.updateProduct = async (req, res) => {
 
@@ -75,4 +75,26 @@ exports.deleteProduct = async (req, res) => {
         if (result) return res.status(200).send(result);
         return res.status(404).send({ erro: "Produto não apagado", errors })
     }).catch(error => { res.status(500).send({ message: 'Falha ao encontrar o produto', error }) })
+}
+
+exports.list = async (req, res) => {
+
+    const { errors } = validationResult(req);
+
+    if (errors.length > 0) return res.status(422).send({ message: errors });
+
+    if (req.get("id")) {
+        await repository.findProductById(req.get("id"), (errors, result) => {
+
+            if (result) return res.status(200).send(result);
+            return res.status(404).send({ erro: "Produto não encontrado", errors })
+        }).catch(error => { res.status(500).send({ message: 'Falha ao encontrar o produto', error }) })
+    }
+
+    try {
+        const data = await repository.listProduct();
+        res.status(200).send(data);
+    } catch (e) {
+        res.status(500).send({ message: 'Falha ao carregar os produtos', e });
+    }
 }
