@@ -6,16 +6,16 @@ const IdValidation = require('../validation/id-validation');
 
 router.post('/', ProductValidation.productValidation(), productsController.createProduct);
 
-router.put('/:id', IdValidation.validateId(), ProductValidation.productValidation(), productsController.updateProduct);
+router.get('/', productsController.listProducts);
 
-// router.get('/', productsController.listProducts);
-
-// router.get('/findproductbyid', productsController.findProductById);
-
-router.get('/', productsController.list);
+router.get('/:id', IdValidation.validateId(), productsController.findProductById);
 
 router.get('/:page', productsController.listProductsPaginated);
 
+router.put('/:id', IdValidation.validateId(), ProductValidation.productValidation(), productsController.updateProduct);
+
 router.delete('/:id', IdValidation.validateId(), productsController.deleteProduct);
+
+// router.get('/', productsController.list);
 
 module.exports = router;

@@ -9,6 +9,21 @@ exports.createSku = async (id, data, callback) => {
     })
 }
 
+exports.listSkus = async () => {
+
+    const res = await Skus.find({}).sort({ _id: -1 });
+    return res;
+
+}
+
+exports.findSkuById = async (id, callback) => {
+    
+    await Skus.find({ 'sku._id': id}, {}, (error, docs) => {
+        if (error) return callback(error, null);
+        return callback(null, docs);
+    })
+}
+
 exports.updateSku = async (id, data, callback) => {
     
     await Skus.update({ 'sku._id': mongoose.Types.ObjectId(id) }, { "$set": { sku: data } }, (error, docs) => {

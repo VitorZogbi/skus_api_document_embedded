@@ -16,6 +16,29 @@ exports.createSku = async (req, res) => {
 
 }
 
+exports.listSku = async (req, res) => {
+
+    try {
+        const data = await repository.listSkus();
+        res.status(200).send(data);
+    } catch (e) {
+        res.status(500).send({ message: 'Falha ao carregar as skus', e });
+    }
+}
+
+exports.findSkuById = async (req, res) => {
+
+    const { errors } = validationResult(req);
+
+    if (errors.length > 0) return res.status(422).send({ message: errors });
+
+    await repository.findSkuById(req.params.id, (errors, result) => {
+
+        if (result) return res.status(200).send(result);
+        return res.status(404).send({ erro: "Sku não encontrada", errors })
+    }).catch(error => { res.status(500).send({ message: 'Falha ao encontrar a sku', error }) })
+}
+
 exports.updateSku = async (req, res) => {
 
     const { errors } = validationResult(req);

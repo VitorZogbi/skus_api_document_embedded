@@ -61,30 +61,7 @@
             "description": "Falha ao criar o produto"
           }
         }
-      }
-    },
-    "/products/": {
-      "get": {
-        "tags": [
-          "products"
-        ],
-        "summary": "Lista os produtos",
-        "description": "Lista os produstos com suas skus",
-        "operationId": "listProducts",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/products"
-            }
-          },
-          "500": {
-            "description": "Falha ao carregar os produtos"
-          }
-        }
-      }
-    },
-    "/products/{page}": {
+      },
       "get": {
         "tags": [
           "products"
@@ -116,7 +93,7 @@
         }
       }
     },
-    "/products/findbyid/{id}": {
+    "/products/{id}": {
       "get": {
         "tags": [
           "products"
@@ -154,9 +131,7 @@
             "description": "Falha ao encontrar o produto"
           }
         }
-      }
-    },
-    "/products/update/{id}": {
+      },
       "put": {
         "tags": [
           "products"
@@ -199,9 +174,7 @@
             "description": "Não foi possível alterar o produto"
           }
         }
-      }
-    },
-    "/products/delete/{id}": {
+      },
       "delete": {
         "tags": [
           "products"
