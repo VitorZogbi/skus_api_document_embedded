@@ -42,8 +42,8 @@ exports.findProductById = async (req, res) => {
     const {errors} = validationResult(req);
 
     if (errors.length > 0) return res.status(422).send({ message: errors });
-
-    await repository.findProductById(req.params.id, (errors, result) => {
+    
+    await repository.findProductById(req.get("id"), (errors, result) => {
 
         if(result) return res.status(200).send(result);
         return res.status(404).send({ erro: "Produto não encontrado", errors })

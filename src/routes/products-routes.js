@@ -10,9 +10,9 @@ router.put('/:id', IdValidation.validateId(), ProductValidation.productValidatio
 
 router.get('/', productsController.listProducts);
 
-router.get('/:page', productsController.listProductsPaginated);
+router.get('/findproductbyid', productsController.findProductById);
 
-router.get('/findbyid/:id', IdValidation.validateId(), productsController.findProductById);
+router.get('/:page', productsController.listProductsPaginated);
 
 router.delete('/:id', IdValidation.validateId(), productsController.deleteProduct);
 
