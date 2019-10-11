@@ -6,7 +6,7 @@ const IdValidation = require('../validation/id-validation');
 
 router.post('/:id', IdValidation.validateId(), SkuValidation.skuValidation(), skusController.createSku);
 
-router.get('/', skusController.listSku);
+router.get('/', skusController.listSkus);
 
 router.get('/:id', IdValidation.validateId(), skusController.findSkuById);
 

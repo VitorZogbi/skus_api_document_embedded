@@ -11,14 +11,32 @@ exports.createSku = async (id, data, callback) => {
 
 exports.listSkus = async () => {
 
-    const res = await Skus.find({}).sort({ _id: -1 });
+    const res = await Skus.find({}, {
+        _id: 0, sku: 1}).sort({ _id: -1 });
     return res;
 
 }
 
+exports.listSkusPaginated = async (page, callback) => {
+
+    const options = {
+        
+        select: { _id: 0, "sku": 1 },
+        limit: 10,
+        page: page        
+        
+    }
+
+    await Skus.paginate({}, options , (error, docs) => {
+        if (error) return callback(error, null);
+        return callback(null, docs);
+    })
+}
+//need to fix
 exports.findSkuById = async (id, callback) => {
     
-    await Skus.find({ 'sku._id': id}, {}, (error, docs) => {
+    await Skus.find({ sku: { $elemMatch: { _id: mongoose.Types.ObjectId(id) }}}, { _id:0, sku: 1}, (error, docs) => {
+    
         if (error) return callback(error, null);
         return callback(null, docs);
     })
@@ -26,7 +44,7 @@ exports.findSkuById = async (id, callback) => {
 
 exports.updateSku = async (id, data, callback) => {
     
-    await Skus.update({ 'sku._id': mongoose.Types.ObjectId(id) }, { "$set": { sku: data } }, (error, docs) => {
+    await Skus.update({ sku: {$elemMatch: { _id: mongoose.Types.ObjectId(id) } } }, { $set: { "sku.$.color": data.color, "sku.$.size": data.size, "sku.$.price": data.price, "sku.$.stockLevel": data.stockLevel, "sku.$.active": data.active } }, (error, docs) => {
         if (error) return callback(error, null);
         callback(null, docs);
     })

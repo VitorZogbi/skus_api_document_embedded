@@ -16,15 +16,37 @@ exports.createSku = async (req, res) => {
 
 }
 
-exports.listSku = async (req, res) => {
+exports.listSkus = async (req, res) => {
+
+    if (req.get("page")) {
+        await repository.listSkusPaginated(req.get("page"), (error, result) => {
+            if (result.docs.length === 0) return res.status(206).send({ message: "Nenhum Produto encontrado", result });
+            if (error) return res.status(500).send({ messsage: 'Falha ao carregar os produtos', erro: error.message });
+            return res.status(200).send({
+                message: "Produto(s) encontrado(s)", result
+            })
+        }).catch(err => {
+            throw new Error(err);
+        });;
+    }
 
     try {
         const data = await repository.listSkus();
         res.status(200).send(data);
     } catch (e) {
-        res.status(500).send({ message: 'Falha ao carregar as skus', e });
+        res.status(500).send({ message: 'Falha ao carregar os produtos', e });
     }
 }
+
+// exports.listSkus = async (req, res) => {
+
+//     try {
+//         const data = await repository.listSkus();
+//         res.status(200).send(data);
+//     } catch (e) {
+//         res.status(500).send({ message: 'Falha ao carregar as skus', e });
+//     }
+// }
 
 exports.findSkuById = async (req, res) => {
 

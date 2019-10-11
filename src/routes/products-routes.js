@@ -8,14 +8,12 @@ router.post('/', ProductValidation.productValidation(), productsController.creat
 
 router.get('/', productsController.listProducts);
 
-router.get('/:id', IdValidation.validateId(), productsController.findProductById);
+// router.get('/:page', productsController.listProductsPaginated);
 
-router.get('/:page', productsController.listProductsPaginated);
+router.get('/:id', IdValidation.validateId(), productsController.findProductById);
 
 router.put('/:id', IdValidation.validateId(), ProductValidation.productValidation(), productsController.updateProduct);
 
 router.delete('/:id', IdValidation.validateId(), productsController.deleteProduct);
-
-// router.get('/', productsController.list);
 
 module.exports = router;
