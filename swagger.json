@@ -68,13 +68,12 @@
         ],
         "summary": "Lista os produtos com paginação",
         "description": "Lista os produtos com suas skus em formato paginado",
-        "operationId": "listProductsPaginated",
+        "operationId": "listProducts",
         "parameters": [
           {
-            "in": "path",
+            "in": "header",
             "name": "page",
-            "type": "string",
-            "required": true
+            "type": "string"
           }
         ],
         "responses": {
@@ -125,7 +124,7 @@
             "description": "Produto não encontrado"
           },
           "422": {
-            "description": "Erro com a id do produto"
+            "description": "Erro com os dados produto"
           },
           "500": {
             "description": "Falha ao encontrar o produto"
@@ -167,8 +166,11 @@
               "$ref": "#/definitions/products"
             }
           },
+          "404": {
+            "description": "Produto não atualizado"
+          },
           "422": {
-            "description": "Erro com os dados do produto"
+            "description": "errors"
           },
           "500": {
             "description": "Não foi possível alterar o produto"
@@ -197,29 +199,66 @@
         ],
         "responses": {
           "204": {
-            "description": "Produto apagado com sucesso"
+            "description": "Ok"
           },
           "404": {
-            "description": "Produto não encontrado"
+            "description": "Produto não apagado"
           },
           "422": {
-            "description": "Erro com os dados do produto"
+            "description": "errors"
           },
           "500": {
-            "description": "Não foi possível apagar o produto desejado"
+            "description": "Falha ao apagar o produto"
           }
         }
       }
     },
-    "/skus/": {
+    "/skus": {
+      "get": {
+        "tags": [
+          "skus"
+        ],
+        "summary": "Lista as skus com paginação",
+        "description": "Lista as skus em formato paginado",
+        "operationId": "listSkus",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "page",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Produto(s) encontrado(s)",
+            "schema": {
+              "$ref": "#/definitions/products"
+            }
+          },
+          "206": {
+            "description": "Nenhum produto encontrado"
+          },
+          "500": {
+            "description": "Falha ao carregar os produtos"
+          }
+        }
+      }
+    },
+    "/skus/{id}": {
       "post": {
         "tags": [
           "skus"
         ],
         "summary": "Cria uma sku",
-        "description": "Cria uma sku referente a um produto",
+        "description": "Cria uma novao sku",
         "operationId": "createSku",
         "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
           {
             "in": "body",
             "name": "sku",
@@ -234,18 +273,54 @@
             "description": "ok"
           },
           "404": {
-            "description": "SKU não criada"
+            "description": "Sku não criada"
           },
           "422": {
             "description": "Erro com os dados da sku"
           },
           "500": {
-            "description": "Não foi possível criar a sku"
+            "description": "Falha ao criar a sku"
           }
         }
-      }
-    },
-    "/skus/{id}": {
+      },
+      "get": {
+        "tags": [
+          "skus"
+        ],
+        "summary": "Encontra uma sku através de sua Id",
+        "description": "Retorna uma sku",
+        "operationId": "findSkuById",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "products",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sku encontrada",
+            "schema": {
+              "$ref": "#/definitions/products"
+            }
+          },
+          "404": {
+            "description": "Sku não encontrada"
+          },
+          "422": {
+            "description": "Erro com os dados da sku"
+          },
+          "500": {
+            "description": "Falha ao encontrar a sku"
+          }
+        }
+      },
       "put": {
         "tags": [
           "skus"
@@ -262,7 +337,7 @@
           },
           {
             "in": "body",
-            "name": "productswithsku",
+            "name": "sku",
             "required": true,
             "schema": {
               "$ref": "#/definitions/products"
@@ -270,7 +345,7 @@
           },
           {
             "in": "query",
-            "name": "productwithsku",
+            "name": "sku",
             "type": "string"
           }
         ],
@@ -281,22 +356,23 @@
               "$ref": "#/definitions/products"
             }
           },
+          "404": {
+            "description": "Sku não atualizada"
+          },
           "422": {
-            "description": "Erro com os dados da sku"
+            "description": "errors"
           },
           "500": {
             "description": "Não foi possível alterar a sku"
           }
         }
-      }
-    },
-    "/skus/delete/{id}": {
+      },
       "delete": {
         "tags": [
           "skus"
         ],
         "summary": "Exclui a sku",
-        "description": "Exclusão de uma sku de um produto através do Id da sku",
+        "description": "Exclusão de uma sku através do Id",
         "operationId": "deleteSku",
         "parameters": [
           {
@@ -307,22 +383,22 @@
           },
           {
             "in": "query",
-            "name": "productwithsku",
+            "name": "sku",
             "type": "string"
           }
         ],
         "responses": {
           "204": {
-            "description": "Produto apagado com sucesso"
+            "description": "Ok"
           },
           "404": {
-            "description": "Produto não encontrado"
+            "description": "Sku não apagada"
           },
           "422": {
-            "description": "Erro com os dados do produto"
+            "description": "errors"
           },
           "500": {
-            "description": "Não foi possível apagar o produto desejado"
+            "description": "Falha ao apagar o sku"
           }
         }
       }
@@ -362,7 +438,7 @@
               "size": {
                 "type": "string",
                 "format": "utf-8",
-                "example": "rose"
+                "example": "GG"
               },
               "price": {
                 "type": "number",

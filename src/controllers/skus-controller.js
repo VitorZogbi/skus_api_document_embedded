@@ -19,15 +19,16 @@ exports.createSku = async (req, res) => {
 exports.listSkus = async (req, res) => {
 
     if (req.get("page")) {
+
         await repository.listSkusPaginated(req.get("page"), (error, result) => {
-            if (result.docs.length === 0) return res.status(206).send({ message: "Nenhum Produto encontrado", result });
-            if (error) return res.status(500).send({ messsage: 'Falha ao carregar os produtos', erro: error.message });
+            if (result.docs.length === 0) return res.status(206).send({ message: "Nenhuma Sku encontrada", result });
+            if (error) return res.status(500).send({ messsage: 'Falha ao carregar as skus', erro: error.message });
             return res.status(200).send({
-                message: "Produto(s) encontrado(s)", result
+                message: "Sku(s) encontrada(s)", result
             })
-        }).catch(err => {
-            throw new Error(err);
-        });;
+        }).catch(e => {
+            throw res.status(500).send({ message: 'Falha ao carregar as skus', e });
+        });
     }
 
     try {
@@ -45,10 +46,10 @@ exports.findSkuById = async (req, res) => {
     if (errors.length > 0) return res.status(422).send({ message: errors });
 
     await repository.findSkuById(req.params.id, (errors, result) => {
-
+        
         if (result) return res.status(200).send(result);
-        return res.status(404).send({ erro: "Sku não encontrada", errors })
-    }).catch(error => { res.status(500).send({ message: 'Falha ao encontrar a sku', error }) })
+        return res.status(404).send({ erro: "Sku não encontrada", errors })}).
+            catch(error => { res.status(500).send({ message: 'Falha ao encontrar a sku', error }) })
 }
 
 exports.updateSku = async (req, res) => {

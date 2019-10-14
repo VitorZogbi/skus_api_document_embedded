@@ -12,7 +12,7 @@ exports.createProduct = async (data, callback) => {
 
 exports.listProduct = async () => {
 
-    const res = await Products.find({}).sort({ _id: -1 });
+    const res = await Products.find({}, '-__v').sort({ _id: -1 });
     return res;
 
 }

@@ -32,10 +32,10 @@ exports.listSkusPaginated = async (page, callback) => {
         return callback(null, docs);
     })
 }
-//need to fix
+
 exports.findSkuById = async (id, callback) => {
     
-    await Skus.find({ sku: { $elemMatch: { _id: mongoose.Types.ObjectId(id) }}}, { _id:0, 'sku.$': 1}, (error, docs) => {
+    await Skus.findOne({ sku: { $elemMatch: { _id: mongoose.Types.ObjectId(id) }}}, { _id:0, 'sku.$': 1}, (error, docs) => {
         if (error) return callback(error, null);
         return callback(null, docs);
     })
@@ -43,7 +43,7 @@ exports.findSkuById = async (id, callback) => {
 
 exports.updateSku = async (id, data, callback) => {
     
-    await Skus.update({ sku: {$elemMatch: { _id: mongoose.Types.ObjectId(id) } } }, { $set: { "sku.$.color": data.color, "sku.$.size": data.size, "sku.$.price": data.price, "sku.$.stockLevel": data.stockLevel, "sku.$.active": data.active } }, (error, docs) => {
+    await Skus.updateOne({ sku: {$elemMatch: { _id: mongoose.Types.ObjectId(id) } } }, { $set: { "sku.$.color": data.color, "sku.$.size": data.size, "sku.$.price": data.price, "sku.$.stockLevel": data.stockLevel, "sku.$.active": data.active } }, (error, docs) => {
         if (error) return callback(error, null);
         callback(null, docs);
     })
