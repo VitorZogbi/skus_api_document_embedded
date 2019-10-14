@@ -35,8 +35,7 @@ exports.listSkusPaginated = async (page, callback) => {
 //need to fix
 exports.findSkuById = async (id, callback) => {
     
-    await Skus.find({ sku: { $elemMatch: { _id: mongoose.Types.ObjectId(id) }}}, { _id:0, sku: 1}, (error, docs) => {
-    
+    await Skus.find({ sku: { $elemMatch: { _id: mongoose.Types.ObjectId(id) }}}, { _id:0, 'sku.$': 1}, (error, docs) => {
         if (error) return callback(error, null);
         return callback(null, docs);
     })
