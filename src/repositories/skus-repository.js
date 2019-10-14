@@ -51,7 +51,7 @@ exports.updateSku = async (id, data, callback) => {
 
 exports.deleteSku = async (id, callback) => {
 
-    await Skus.update({ "sku._id": mongoose.Types.ObjectId(id) }, { "$pull": { "sku": { "_id": mongoose.Types.ObjectId(id) } } }, (error, docs) => {
+    await Skus.updateOne({ "sku._id": mongoose.Types.ObjectId(id) }, { "$pull": { "sku": { "_id": mongoose.Types.ObjectId(id) } } }, (error, docs) => {
         if (error) return callback(error, null);
         return callback(null, docs);
     })
