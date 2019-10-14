@@ -8,8 +8,6 @@ router.post('/', ProductValidation.productValidation(), productsController.creat
 
 router.get('/', productsController.listProducts);
 
-// router.get('/:page', productsController.listProductsPaginated);
-
 router.get('/:id', IdValidation.validateId(), productsController.findProductById);
 
 router.put('/:id', IdValidation.validateId(), ProductValidation.productValidation(), productsController.updateProduct);

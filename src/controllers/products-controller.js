@@ -36,29 +36,6 @@ exports.listProducts = async (req, res) => {
     }
 }
 
-// exports.listProducts = async (req, res) => {
-    
-//     try {
-//         const data = await repository.listProduct();
-//         res.status(200).send(data);
-//     } catch (e) {
-//         res.status(500).send({ message: 'Falha ao carregar os produtos', e });
-//     }
-// }
-
-// exports.listProductsPaginated = async (req, res) => {
-    
-//     await repository.listProductsPaginated(req.params.page, (error, result) => {
-//         if (result.docs.length === 0) return res.status(206).send({ message: "Nenhum Produto encontrado", result });
-//         if (error) return res.status(500).send({ messsage: 'Falha ao carregar os produtos', erro: error.message });
-//         return res.status(200).send({
-//             message: "Produto(s) encontrado(s)", result
-//         })
-//     }).catch(err => {
-//         throw new Error(err);
-//     });;
-// };
-
 exports.findProductById = async (req, res) => {
 
     const {errors} = validationResult(req);

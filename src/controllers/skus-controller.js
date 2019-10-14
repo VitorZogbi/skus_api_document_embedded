@@ -38,16 +38,6 @@ exports.listSkus = async (req, res) => {
     }
 }
 
-// exports.listSkus = async (req, res) => {
-
-//     try {
-//         const data = await repository.listSkus();
-//         res.status(200).send(data);
-//     } catch (e) {
-//         res.status(500).send({ message: 'Falha ao carregar as skus', e });
-//     }
-// }
-
 exports.findSkuById = async (req, res) => {
 
     const { errors } = validationResult(req);
