@@ -72,9 +72,11 @@ exports.deleteSku = async (req, res) => {
 
     if (errors.length > 0) return res.status(422).send({ message: errors });
 
-    await repository.deleteSku(req.params.id, (errors, result) => {
+    try{
+        await repository.deleteSku(req.params.id, (errors, result) => {
 
-        if (result) return res.status(200).send(result);
-        return res.status(404).send({ erro: "Sku não apagada", errors })
-    }).catch(error => { res.status(500).send({ message: 'Falha ao encontrar a sku', error }) })
+            if (result) return res.status(200).send(result);
+            return res.status(404).send({ erro: "Sku não apagada", errors })
+        })
+    } catch (error) { res.status(500).send({ message: 'Falha ao encontrar a sku', error }) }
 }
