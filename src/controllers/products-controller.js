@@ -5,7 +5,7 @@ exports.createProduct = async (req, res) => {
 
     const {errors} = validationResult(req);
 
-    if (errors.length > 0) return res.status(422).send({ message: "Erro com os dados do produto", errors });
+    if (errors.length > 0) return res.status(400).send({ message: "Erro com os dados do produto", errors });
 
     await repository.createProduct(req.body, (error, result) => {
         if (result) return res.status(201).send(result);
@@ -41,7 +41,7 @@ exports.findProductById = async (req, res) => {
 
     const {errors} = validationResult(req);
 
-    if (errors.length > 0) return res.status(422).send({ message: errors });
+    if (errors.length > 0) return res.status(400).send({ message: errors });
     
     await repository.findProductById(req.params.id, (errors, result) => {
 
@@ -54,7 +54,7 @@ exports.updateProduct = async (req, res) => {
 
     const { errors } = validationResult(req);
 
-    if (errors.length > 0) return res.status(422).send({ message: errors });
+    if (errors.length > 0) return res.status(400).send({ message: errors });
 
     await repository.updateProduct(req.params.id, req.body, (errors, result) => {
 
@@ -68,7 +68,7 @@ exports.deleteProduct = async (req, res) => {
 
     const { errors } = validationResult(req);
 
-    if (errors.length > 0) return res.status(422).send({ message: errors });
+    if (errors.length > 0) return res.status(400).send({ message: errors });
 
     await repository.deleteProduct(req.params.id, (errors, result) => {
 

@@ -4,7 +4,7 @@ const skusController = require('../controllers/skus-controller');
 const SkuValidation = require('../validation/skus-validator');
 const IdValidation = require('../validation/id-validation');
 
-router.post('/:id', IdValidation.validateId(), SkuValidation.skuValidation(), skusController.createSku);
+router.post('/', IdValidation.validateId(), SkuValidation.skuValidation(), skusController.createSku);
 
 router.get('/', skusController.listSkus);
 

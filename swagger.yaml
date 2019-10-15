@@ -5,7 +5,7 @@ host: 'localhost:3000'
 basePath: /
 info:
   version: '1.0'
-  title: skus_api_document_embedded
+  title: ProductsAPI
   description: Administa o catalógo e estoque de produtos de um e-commerce
   contact:
     name: Suporte
@@ -35,10 +35,10 @@ paths:
       responses:
         '201':
           description: ok
+        '400':
+          description: Erro com os dados do produto
         '404':
           description: Produto não criado
-        '422':
-          description: Erro com os dados do produto
         '500':
           description: Falha ao criar o produto        
     get:
@@ -81,10 +81,10 @@ paths:
           description: Produto encontrado
           schema:
             $ref: '#/definitions/products'
+        '400':
+          description: Erro com os dados produto
         '404':
           description: Produto não encontrado
-        '422':
-          description: Erro com os dados produto
         '500':
           description: Falha ao encontrar o produto  
     put:
@@ -111,10 +111,10 @@ paths:
           description: Produto atualizado
           schema:
             $ref: '#/definitions/products'
+        '400':
+          description: errors
         '404' :
           description: Produto não atualizado
-        '422':
-          description: errors
         '500':
           description: Não foi possível alterar o produto
     delete:
@@ -134,14 +134,39 @@ paths:
       responses:
         '204':
           description: Ok
+        '400':
+          description: errors
         '404':
           description: Produto não apagado
-        '422':
-          description: errors
         '500':
           description: Falha ao apagar o produto
   
   '/skus':
+  
+    post:
+      tags:
+        - skus
+      summary: Cria uma sku
+      description: Cria uma novao sku
+      operationId: createSku
+      parameters:
+        - in: header
+          name: id
+          type: string
+        - in: body
+          name: sku
+          required: true
+          schema:
+            $ref: '#/definitions/products'
+      responses:
+        '201':
+          description: ok
+        '400':
+          description: Erro com os dados da sku
+        '404':
+          description: Sku não criada
+        '500':
+          description: Falha ao criar a sku
     
     get:
       tags:
@@ -165,32 +190,6 @@ paths:
           
   '/skus/{id}':
   
-    post:
-      tags:
-        - skus
-      summary: Cria uma sku
-      description: Cria uma novao sku
-      operationId: createSku
-      parameters:
-        - in: path
-          name: id
-          type: string
-          required: true
-        - in: body
-          name: sku
-          required: true
-          schema:
-            $ref: '#/definitions/products'
-      responses:
-        '201':
-          description: ok
-        '404':
-          description: Sku não criada
-        '422':
-          description: Erro com os dados da sku
-        '500':
-          description: Falha ao criar a sku
-  
     get:
       tags:
         - skus
@@ -210,10 +209,10 @@ paths:
           description: Sku encontrada
           schema:
             $ref: '#/definitions/products'
+        '400':
+          description: Erro com os dados da sku
         '404':
           description: Sku não encontrada
-        '422':
-          description: Erro com os dados da sku
         '500':
           description: Falha ao encontrar a sku  
     put:
@@ -240,10 +239,10 @@ paths:
           description: Sku atualizada
           schema:
             $ref: '#/definitions/products'
+        '400':
+          description: errors
         '404' :
           description: Sku não atualizada
-        '422':
-          description: errors
         '500':
           description: Não foi possível alterar a sku
     delete:
@@ -263,10 +262,10 @@ paths:
       responses:
         '204':
           description: Ok
+        '400':
+          description: errors
         '404':
           description: Sku não apagada
-        '422':
-          description: errors
         '500':
           description: Falha ao apagar o sku
           

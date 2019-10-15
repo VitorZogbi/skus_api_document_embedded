@@ -5,9 +5,9 @@ exports.createSku = async (req, res) => {
 
     const { errors } = validationResult(req);
 
-    if (errors.length > 0) return res.status(422).send({ message: errors });
+    if (errors.length > 0) return res.status(400).send({ message: errors });
 
-    await repository.createSku(req.params.id, req.body, (error, result) => {
+    await repository.createSku(req.get("id"), req.body, (error, result) => {
 
         if (result) return res.status(201).send(result);
         return res.status(404).send({ erro: "Sku não criada", error })
@@ -43,7 +43,7 @@ exports.findSkuById = async (req, res) => {
 
     const { errors } = validationResult(req);
 
-    if (errors.length > 0) return res.status(422).send({ message: errors });
+    if (errors.length > 0) return res.status(400).send({ message: errors });
 
     await repository.findSkuById(req.params.id, (errors, result) => {
         
@@ -56,7 +56,7 @@ exports.updateSku = async (req, res) => {
 
     const { errors } = validationResult(req);
 
-    if (errors.length > 0) return res.status(422).send({ message: errors });
+    if (errors.length > 0) return res.status(400).send({ message: errors });
 
     await repository.updateSku(req.params.id, req.body, (errors, result) => {
 
@@ -70,7 +70,7 @@ exports.deleteSku = async (req, res) => {
 
     const { errors } = validationResult(req);
 
-    if (errors.length > 0) return res.status(422).send({ message: errors });
+    if (errors.length > 0) return res.status(400).send({ message: errors });
 
     try{
         await repository.deleteSku(req.params.id, (errors, result) => {
